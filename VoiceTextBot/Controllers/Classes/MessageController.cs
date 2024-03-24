@@ -7,13 +7,8 @@ using Telegram.Bot;
 
 namespace VoiceTextBot.Controllers.Classes
 {
-    abstract class MessageController
+    abstract class MessageController(ITelegramBotClient telegramBotClient)
     {
-        protected readonly ITelegramBotClient _telegramBotClient;
-
-        public MessageController(ITelegramBotClient telegramBotClient)
-        {
-            _telegramBotClient = telegramBotClient;
-        }
+        protected readonly ITelegramBotClient _telegramBotClient = telegramBotClient;
     }
 }

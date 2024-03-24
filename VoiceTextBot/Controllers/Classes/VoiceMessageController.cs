@@ -7,17 +7,30 @@ using Telegram.Bot;
 using Telegram.Bot.Types;
 using VoiceTextBot.Controllers.Interfaces;
 using VoiceTextBot.Configuration;
+using VoiceTextBot.Services.Interfaces;
 
 namespace VoiceTextBot.Controllers.Classes
 {
-    internal class VoiceMessageController : MessageController, IMessageController<Message>
+    internal class VoiceMessageController(
+        ITelegramBotClient client, 
+        IFileHandler audioFileHandler,
+        IStorage memoryStorage) : MessageController(client), IMessageController<Message>
     {
-        public VoiceMessageController(ITelegramBotClient client) : base(client) { }
-
+        private readonly IFileHandler _audioFileHandler = audioFileHandler;
+        private readonly IStorage _memoryStorage = memoryStorage;
         public async Task Handle(Message message, CancellationToken ct)
         {
-            Console.WriteLine($"Controller {GetType().Name} got message");
-            await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, $"Got voice message", cancellationToken: ct);
+            var fileId = message.Voice.FileId;
+            if (fileId == null)
+                return;
+
+            await _audioFileHandler.Download(fileId, ct);
+
+            string userLangCode = _memoryStorage.GetSession(message.Chat.Id).LanguageCode;
+            
+            string result = _audioFileHandler.Process(userLangCode);
+
+            await _telegramBotClient.SendTextMessageAsync(message.Chat.Id, result, cancellationToken: ct);
         }
     }
 }

@@ -10,10 +10,8 @@ using VoiceTextBot.Configuration;
 
 namespace VoiceTextBot.Controllers.Classes
 {
-    internal class DefaultMessageController : MessageController, IMessageController<Message>
+    internal class DefaultMessageController(ITelegramBotClient client) : MessageController(client), IMessageController<Message>
     {
-        public DefaultMessageController(ITelegramBotClient client) : base(client) { }
-
         public async Task Handle(Message message, CancellationToken ct)
         {
             Console.WriteLine($"Controller {GetType().Name} got message");
