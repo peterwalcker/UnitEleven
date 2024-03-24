@@ -32,6 +32,8 @@ namespace VoiceTextBot.Core.Classes
 
             if (update.Type == UpdateType.Message)
             {
+                Console.WriteLine($"Got new message: {update.Message.Text}");
+
                 await _telegramBotClient.SendTextMessageAsync(update.Message.Chat.Id,
                                                                 "you sent text message",
                                                                 cancellationToken: cancellationToken);
