@@ -10,7 +10,17 @@ namespace HomeworkBot.Utilites
     {
         public static int Sum(string str)
         {
-            string[] strings = str.Split(' ');
+            string[] strings = new string[0];
+            try
+            {
+                strings = str.Split(' ');
+            }
+            catch (NullReferenceException exception)
+            {
+                Console.WriteLine(exception.Message);
+                throw new Exception("Неверные входящие данные.");
+            }
+
             int sum = 0;
 
             try
