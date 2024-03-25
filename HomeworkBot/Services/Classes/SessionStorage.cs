@@ -18,7 +18,7 @@ namespace HomeworkBot.Services.Classes
             if(_sessions.ContainsKey(chatId))
                 return _sessions[chatId];
 
-            var newSession = new Session() { ActionType = "count" };
+            var newSession = new Session() { ActionType = "" };
             _sessions.TryAdd(chatId, newSession);
             return newSession;
         }

@@ -21,7 +21,7 @@ namespace HomeworkBot.Utilites
                 }
                 return sum;
             }
-            catch (ArgumentException exception)
+            catch (FormatException exception)
             {
                 Console.WriteLine(exception.Message);
                 throw new Exception("Необходимо ввести числа.");
