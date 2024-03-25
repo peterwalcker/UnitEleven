@@ -34,7 +34,7 @@ namespace HomeworkBot.Core
         {
             if(update.Type == Telegram.Bot.Types.Enums.UpdateType.CallbackQuery)
             {
-                _keyboardController.Handle(update.CallbackQuery, cancellationToken);
+                await _keyboardController.Handle(update.CallbackQuery, cancellationToken);
             }
 
             if (update.Type == Telegram.Bot.Types.Enums.UpdateType.Message)
@@ -42,11 +42,11 @@ namespace HomeworkBot.Core
                 switch (update.Message!.Type)
                 {
                     case BotTypes.Enums.MessageType:
-                        _textMessageController.Handle(update.Message, cancellationToken);
+                        await _textMessageController.Handle(update.Message, cancellationToken);
                         break;
                     
                     default:
-                        _messageController.Handle(update.Message, cancellationToken); 
+                        await _messageController.Handle(update.Message, cancellationToken); 
                         break;
                 }
             }
